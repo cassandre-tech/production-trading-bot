@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- =========================================================================================================== -->
+	<!-- Project information -->
+	<groupId>production.tech.cassandre.trading.bot</groupId>
+	<artifactId>production-trading-bot</artifactId>
+	<packaging>jar</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<!-- =========================================================================================================== -->
+
+	<!-- =========================================================================================================== -->
+	<!-- Project configuration -->
+	<properties>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<java.version>11</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+	<!-- =========================================================================================================== -->
+
+	<!-- =========================================================================================================== -->
+	<!-- Dependencies -->
+	<dependencies>
+		<!-- Spring dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+
+		<!-- Cassandre trading bot -->
+		<dependency>
+			<groupId>tech.cassandre.trading.bot</groupId>
+			<artifactId>cassandre-trading-bot-spring-boot-starter</artifactId>
+			<version>4.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.knowm.xchange</groupId>
+			<artifactId>xchange-kucoin</artifactId>
+			<version>5.0.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.5.1</version>
+			<scope>test</scope>
+		</dependency>
+<!--		<dependency>
+			<groupId>io.logz.logback</groupId>
+			<artifactId>logzio-logback-appender</artifactId>
+			<version>1.0.24</version>
+		</dependency>-->
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>2.4.1</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<version>4.0.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>tech.cassandre.trading.bot</groupId>
+			<artifactId>cassandre-trading-bot-spring-boot-starter-test</artifactId>
+			<version>4.0.1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<!-- =========================================================================================================== -->
+
+	<!-- =========================================================================================================== -->
+	<!-- Build configuration -->
+	<build>
+		<finalName>production-trading-bot</finalName>
+		<!-- Plugins -->
+		<plugins>
+			<!-- Checkstyle verification -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.1.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>8.35</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<excludes>**/mapper/**/*</excludes>
+					<consoleOutput>true</consoleOutput>
+					<configLocation>checkstyle_configuration.xml</configLocation>
+					<failOnViolation>true</failOnViolation>
+					<violationSeverity>warning</violationSeverity>
+				</configuration>
+			</plugin>
+			<!-- Spring boot -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.3.3.RELEASE</version>
+			</plugin>
+			<!-- Surefire -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.22.0</version>
+			</plugin>
+			<!-- Release plugin -->
+			<plugin>
+				<groupId>com.amashchenko.maven.plugin</groupId>
+				<artifactId>gitflow-maven-plugin</artifactId>
+				<version>1.14.0</version>
+				<configuration>
+					<allowSnapshots>true</allowSnapshots>
+					<gitFlowConfig>
+						<developmentBranch>development</developmentBranch>
+					</gitFlowConfig>
+					<commitMessages>
+						<featureStartMessage>Update versions for feature branch</featureStartMessage>
+						<featureFinishMessage>Update versions for development branch</featureFinishMessage>
+						<hotfixStartMessage>Update versions for hotfix</hotfixStartMessage>
+						<hotfixFinishMessage>Update for next development version</hotfixFinishMessage>
+						<releaseStartMessage>Update versions for release</releaseStartMessage>
+						<releaseFinishMessage>Update for next development version</releaseFinishMessage>
+						<tagHotfixMessage>Tag hotfix</tagHotfixMessage>
+						<tagReleaseMessage>Tag release</tagReleaseMessage>
+					</commitMessages>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<!-- =========================================================================================================== -->
+
+	<!-- =========================================================================================================== -->
+	<!-- Repositories - Add snapshot -->
+	<repositories>
+		<repository>
+			<id>oss.sonatype.org-snapshot</id>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<!-- =========================================================================================================== -->
+
+</project>
