@@ -5,5 +5,5 @@ application:
   organization: "QoveryCommunity"
 databases:
 - type: "POSTGRESQL"
-  name: "cassandre_trading_bot"
+  name: "cassandre-trading-bot"
   version: "12"
