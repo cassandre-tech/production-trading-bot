@@ -19,6 +19,7 @@ import tech.cassandre.trading.bot.dto.util.GainDTO;
 import tech.cassandre.trading.bot.strategy.BasicTa4jCassandreStrategy;
 import tech.cassandre.trading.bot.strategy.CassandreStrategy;
 
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.Duration;
@@ -96,6 +97,11 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         ClosePriceIndicator closePrice = new ClosePriceIndicator(getSeries());
         SMAIndicator sma = new SMAIndicator(closePrice, getMaximumBarCount());
         return new BaseStrategy(new OverIndicatorRule(sma, closePrice), new UnderIndicatorRule(sma, closePrice));
+    }
+
+    @PostConstruct
+    public void startup() {
+        sendReport("Trading bot started");
     }
 
     @Override
