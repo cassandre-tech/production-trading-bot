@@ -19,7 +19,6 @@ import tech.cassandre.trading.bot.dto.util.GainDTO;
 import tech.cassandre.trading.bot.strategy.BasicTa4jCassandreStrategy;
 import tech.cassandre.trading.bot.strategy.CassandreStrategy;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.Duration;
@@ -99,11 +98,6 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         return new BaseStrategy(new OverIndicatorRule(sma, closePrice), new UnderIndicatorRule(sma, closePrice));
     }
 
-    @PostConstruct
-    public void startup() {
-        sendReport("Trading bot started");
-    }
-
     @Override
     public void onPositionStatusUpdate(final PositionDTO position) {
         if (position.getStatus().equals(OPENED) || position.getStatus().equals(CLOSED)) {
@@ -140,7 +134,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
      */
     @Scheduled(cron = "0 0 7 * * *", zone = "Europe/Paris")
     public void dailyReport() {
-        sendReport("Daily report");
+        sendReport("Your daily report");
     }
 
     /**
