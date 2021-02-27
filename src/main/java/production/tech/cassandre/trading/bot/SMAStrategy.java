@@ -99,11 +99,6 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         return new BaseStrategy(new OverIndicatorRule(sma, closePrice), new UnderIndicatorRule(sma, closePrice));
     }
 
-    @PostConstruct
-    public void startup() {
-        sendReport("Trading bot started");
-    }
-
     @Override
     public void onPositionStatusUpdate(final PositionDTO position) {
         if (position.getStatus().equals(OPENED) || position.getStatus().equals(CLOSED)) {
