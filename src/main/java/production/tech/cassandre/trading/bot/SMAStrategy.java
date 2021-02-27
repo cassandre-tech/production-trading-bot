@@ -19,7 +19,6 @@ import tech.cassandre.trading.bot.dto.util.GainDTO;
 import tech.cassandre.trading.bot.strategy.BasicTa4jCassandreStrategy;
 import tech.cassandre.trading.bot.strategy.CassandreStrategy;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.Duration;
