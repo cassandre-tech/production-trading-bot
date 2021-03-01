@@ -134,7 +134,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
      */
     @Scheduled(cron = "0 0 7 * * *", zone = "Europe/Paris")
     public void dailyReport() {
-        sendReport("Your daily report");
+        sendReport("Cassandre daily report");
     }
 
     /**
