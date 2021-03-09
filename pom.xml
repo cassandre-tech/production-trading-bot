@@ -59,6 +59,11 @@
 			<version>2.5.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.logz.logback</groupId>
+			<artifactId>logzio-logback-appender</artifactId>
+			<version>1.0.24</version>
+		</dependency>
 
 		<!-- Tests -->
 		<dependency>
