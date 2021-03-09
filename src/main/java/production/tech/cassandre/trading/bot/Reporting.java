@@ -52,11 +52,6 @@ public class Reporting {
         if (Arrays.stream(activeProfiles).noneMatch("test"::equalsIgnoreCase)) {
             logger.info("Email sent");
             mailSender.send(message);
-        } else {
-            logger.info("=============");
-            logger.info("Email sent (test)");
-            logger.info(messageSubject);
-            logger.info(messageBody);
         }
     }
 

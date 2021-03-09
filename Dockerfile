@@ -6,7 +6,7 @@ COPY pom.xml .
 RUN mvn dependency:go-offline -B
 # Copy source files and compile them (.dockerignore should handle what to copy).
 COPY . .
-RUN mvn -DskipTests=true clean package spring-boot:repackage
+RUN mvn -DskipTests=true package spring-boot:repackage
 
 # Creates our image.
 FROM adoptopenjdk/openjdk11 as runnable

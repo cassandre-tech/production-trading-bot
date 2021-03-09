@@ -127,6 +127,22 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
 
     @Override
     public void shouldExit() {
+        // Creating the position.
+        if (canSell(POSITION_AMOUNT)) {
+            logger.info("Selling now");
+            // Create rules.
+            PositionRulesDTO rules = PositionRulesDTO.builder()
+                    .stopGainPercentage(STOP_GAIN_PERCENTAGE)
+                    .stopLossPercentage(STOP_LOSS_PERCENTAGE)
+                    .build();
+            // Create position.
+            createShortPosition(
+                    POSITION_CURRENCY_PAIR,
+                    POSITION_AMOUNT,
+                    rules);
+        } else {
+            logger.info("Should by selling but not enough assets");
+        }
     }
 
     /**
@@ -153,6 +169,25 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
             emailBody.append(gain.getPercentage()).append(" %").append(" / ");
             emailBody.append(getFormattedValue(gain.getAmount())).append(" / ");
             emailBody.append(getFormattedValue(gain.getFees()));
+            emailBody.append(System.lineSeparator());
+        });
+        emailBody.append(System.lineSeparator());
+
+        // Balances.
+        emailBody.append("Balances:").append(System.lineSeparator());
+        getAccountByAccountId("trade").ifPresent(account -> account.getBalances().forEach((currency, balance) -> {
+            emailBody.append(currency).append(" : ");
+            emailBody.append("Total : ").append(balance.getTotal()).append(" / ");
+            emailBody.append("Available : ").append(balance.getAvailable());
+            emailBody.append(System.lineSeparator());
+        }));
+        emailBody.append(System.lineSeparator());
+
+        // Locked amounts by positions.
+        emailBody.append("Locked amounts by position:").append(System.lineSeparator());
+        getAmountsLockedByPosition().forEach((positionId, currencyAmount) -> {
+            emailBody.append("Position n°").append(positionId).append(" : ");
+            emailBody.append(currencyAmount);
             emailBody.append(System.lineSeparator());
         });
         emailBody.append(System.lineSeparator());
