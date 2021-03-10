@@ -1,6 +1,6 @@
 ---
 application:
-  name: "cassandre-tech-production-trading-bot"
+  name: "production-trading-bot"
   project: "cassandre"
   organization: "QoveryCommunity"
 databases:
