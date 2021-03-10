@@ -7,3 +7,9 @@ databases:
 - type: "POSTGRESQL"
   name: "cassandre-trading-bot"
   version: "12"
+routers:
+- name: "main-production-trading-bot"
+  routes:
+  - application_name: "production-trading-bot"
+    paths:
+    - "/*"
