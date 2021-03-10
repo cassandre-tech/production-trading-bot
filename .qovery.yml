@@ -1,0 +1,15 @@
+---
+application:
+  name: "production-trading-bot"
+  project: "cassandre"
+  organization: "QoveryCommunity"
+databases:
+- type: "POSTGRESQL"
+  name: "production-trading-bot"
+  version: "12"
+routers:
+- name: "main-production-trading-bot"
+  routes:
+  - application_name: "production-trading-bot"
+    paths:
+    - "/*"
