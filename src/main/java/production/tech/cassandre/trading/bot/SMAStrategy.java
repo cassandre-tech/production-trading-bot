@@ -128,7 +128,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
     @Override
     public void shouldExit() {
         // Creating the position.
-/*        if (canSell(POSITION_AMOUNT)) {
+        if (canSell(POSITION_AMOUNT)) {
             logger.info("Selling now");
             // Create rules.
             PositionRulesDTO rules = PositionRulesDTO.builder()
@@ -142,7 +142,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
                     rules);
         } else {
             logger.info("Should by selling but not enough assets");
-        }*/
+        }
     }
 
     /**
@@ -184,13 +184,13 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         emailBody.append(System.lineSeparator());
 
         // Locked amounts by positions.
-/*        emailBody.append("Locked amounts by position:").append(System.lineSeparator());
+        emailBody.append("Locked amounts by position:").append(System.lineSeparator());
         getAmountsLockedByPosition().forEach((positionId, currencyAmount) -> {
             emailBody.append("Position n°").append(positionId).append(" : ");
             emailBody.append(currencyAmount);
             emailBody.append(System.lineSeparator());
         });
-        emailBody.append(System.lineSeparator());*/
+        emailBody.append(System.lineSeparator());
 
         // Opened positions.
         emailBody.append("Opened positions:").append(System.lineSeparator());
