@@ -1,9 +1,0 @@
----
-application:
-  name: "production-trading-bot"
-  project: "cassandre"
-  organization: "QoveryCommunity"
-databases:
-- type: "POSTGRESQL"
-  name: "cassandre-trading-bot"
-  version: "12"
