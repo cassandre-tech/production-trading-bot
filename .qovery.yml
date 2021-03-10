@@ -1,7 +1,7 @@
 ---
 application:
   name: "cassandre-tech-production-trading-bot"
-  project: "Cassandre-tech-production-trading-bot"
+  project: "cassandre"
   organization: "QoveryCommunity"
 databases:
 - type: "POSTGRESQL"
