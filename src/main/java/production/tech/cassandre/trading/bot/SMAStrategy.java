@@ -21,8 +21,11 @@ import tech.cassandre.trading.bot.strategy.CassandreStrategy;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.Format;
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -177,8 +180,8 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         emailBody.append("Balances:").append(System.lineSeparator());
         getAccountByAccountId("trade").ifPresent(account -> account.getBalances().forEach((currency, balance) -> {
             emailBody.append(currency).append(" : ");
-            emailBody.append("Total : ").append(balance.getTotal()).append(" / ");
-            emailBody.append("Available : ").append(balance.getAvailable());
+            emailBody.append("Total : ").append(getFormattedValue(balance.getTotal())).append(" / ");
+            emailBody.append("Available : ").append(getFormattedValue(balance.getAvailable()));
             emailBody.append(System.lineSeparator());
         }));
         emailBody.append(System.lineSeparator());
@@ -187,7 +190,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         emailBody.append("Locked amounts by position:").append(System.lineSeparator());
         getAmountsLockedByPosition().forEach((positionId, currencyAmount) -> {
             emailBody.append("Position n°").append(positionId).append(" : ");
-            emailBody.append(currencyAmount);
+            emailBody.append(getFormattedValue(currencyAmount));
             emailBody.append(System.lineSeparator());
         });
         emailBody.append(System.lineSeparator());
@@ -208,6 +211,17 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
                 .forEach(p -> emailBody.append(p.getDescription()).append(System.lineSeparator()));
 
         reporting.sendReport(messageSubject, emailBody.toString());
+    }
+
+    /**
+     * Returns formatted value.
+     *
+     * @param value value
+     * @return formatted value
+     */
+    private String getFormattedValue(final BigDecimal value) {
+        Format f = new DecimalFormat("0.", new DecimalFormatSymbols(Locale.FRENCH));
+        return f.format(value);
     }
 
     /**
