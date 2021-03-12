@@ -2,6 +2,8 @@ package production.tech.cassandre.trading.bot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.ta4j.core.BaseStrategy;
 import org.ta4j.core.Strategy;
@@ -99,6 +101,11 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         ClosePriceIndicator closePrice = new ClosePriceIndicator(getSeries());
         SMAIndicator sma = new SMAIndicator(closePrice, getMaximumBarCount());
         return new BaseStrategy(new OverIndicatorRule(sma, closePrice), new UnderIndicatorRule(sma, closePrice));
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void onStartup() {
+        sendReport("Cassandre started !");
     }
 
     @Override
@@ -200,7 +207,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         getPositions().values()
                 .stream()
                 .filter(p -> p.getStatus().equals(OPENED))
-                .forEach(p -> emailBody.append(p.getDescription()).append(System.lineSeparator()));
+                .forEach(p -> emailBody.append("- ").append(p.getDescription()).append(System.lineSeparator()));
         emailBody.append(System.lineSeparator());
 
         // Closed positions.
@@ -208,7 +215,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         getPositions().values()
                 .stream()
                 .filter(p -> p.getStatus().equals(CLOSED))
-                .forEach(p -> emailBody.append(p.getDescription()).append(System.lineSeparator()));
+                .forEach(p -> emailBody.append("- ").append(p.getDescription()).append(System.lineSeparator()));
 
         reporting.sendReport(messageSubject, emailBody.toString());
     }
