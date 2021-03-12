@@ -187,8 +187,8 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         emailBody.append("Balances:").append(System.lineSeparator());
         getAccountByAccountId("trade").ifPresent(account -> account.getBalances().forEach((currency, balance) -> {
             emailBody.append(currency).append(" : ");
-            emailBody.append("Total : ").append(getFormattedValue(balance.getTotal())).append(" / ");
-            emailBody.append("Available : ").append(getFormattedValue(balance.getAvailable()));
+            emailBody.append("- Total: ").append(getFormattedValue(balance.getTotal())).append(" / ");
+            emailBody.append("- Available: ").append(getFormattedValue(balance.getAvailable()));
             emailBody.append(System.lineSeparator());
         }));
         emailBody.append(System.lineSeparator());
@@ -196,7 +196,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
         // Locked amounts by positions.
         emailBody.append("Locked amounts by position:").append(System.lineSeparator());
         getAmountsLockedByPosition().forEach((positionId, currencyAmount) -> {
-            emailBody.append("Position n°").append(positionId).append(" : ");
+            emailBody.append("- Position n°").append(positionId).append(" : ");
             emailBody.append(getFormattedValue(currencyAmount));
             emailBody.append(System.lineSeparator());
         });
@@ -227,7 +227,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
      * @return formatted value
      */
     private String getFormattedValue(final BigDecimal value) {
-        Format f = new DecimalFormat("0.", new DecimalFormatSymbols(Locale.FRENCH));
+        Format f = new DecimalFormat("#0.00000000", new DecimalFormatSymbols(Locale.FRENCH));
         return f.format(value);
     }
 
@@ -238,7 +238,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
      * @return formatted value
      */
     private String getFormattedValue(final CurrencyAmountDTO value) {
-        return new DecimalFormat("#0.00").format(value.getValue()) + " " + value.getCurrency();
+        return new DecimalFormat("#0.00000000").format(value.getValue()) + " " + value.getCurrency();
     }
 
 }
