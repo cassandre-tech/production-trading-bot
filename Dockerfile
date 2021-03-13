@@ -1,8 +1,12 @@
 # Install maven and copy project for compilation.
-FROM maven:3.6.3-openjdk-11 as build
+FROM maven:3.6.3-openjdk-11-slim as build
 WORKDIR /build
+# Copy just pom.xml (dependencies and dowload them all for offline access later - cache layer).
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+# Copy source files and compile them (.dockerignore should handle what to copy).
 COPY . .
-RUN mvn -DskipTests=true spring-boot:build-image
+RUN mvn -DskipTests=true spring-boot:repackage
 
 # Creates our image.
 FROM adoptopenjdk/openjdk11 as runnable
