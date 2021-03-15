@@ -131,7 +131,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
                     POSITION_AMOUNT,
                     rules);
         } else {
-            logger.info("Should be buying but not enough assets");
+            logger.info("Should be buying {} {} but not enough assets", POSITION_AMOUNT, POSITION_CURRENCY_PAIR.getBaseCurrency());
         }
     }
 
@@ -151,7 +151,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
                     POSITION_AMOUNT,
                     rules);
         } else {
-            logger.info("Should be selling but not enough assets");
+            logger.info("Should be selling {} {} but not enough assets", POSITION_AMOUNT, POSITION_CURRENCY_PAIR.getBaseCurrency());
         }
     }
 
