@@ -105,7 +105,7 @@ public final class SMAStrategy extends BasicTa4jCassandreStrategy {
 
     @EventListener(ApplicationReadyEvent.class)
     public void onStartup() {
-        sendReport("Cassandre started !");
+        sendReport("Cassandre started !!");
     }
 
     @Override
